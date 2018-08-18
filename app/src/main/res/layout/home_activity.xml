@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sample.android.activity.HomeActivity"
+    android:background="@android:color/white">
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:drawableLeft="@mipmap/ic_user_name"
+        android:drawablePadding="5dp"
+        android:background="@drawable/background_edit"
+        android:layout_margin="15dp"
+        android:layout_centerInParent="true"/>
+    <EditText
+        android:id="@+id/edit_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:drawableLeft="@mipmap/ic_user_pwd"
+        android:drawablePadding="5dp"
+        android:background="@drawable/background_edit"
+        android:layout_below="@id/edit_name"
+        android:layout_margin="15dp"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
