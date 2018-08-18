@@ -4,12 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * @version v1.0
- * @项目: sample-user-manager-application
- * @包名： com.sample.android.server
- * @功能描述： 数据库操作类
- * @作者： 杨松松
- * @创建时间： 2017/11/19 17:05
+ * version v1.0
+ * 项目: sample-user-manager-application
+ * 包名: com.sample.android.server
+ * 功能描述: 数据库操作类
+ * 作者: 杨松松
+ * 创建时间: 2017/11/19 17:05
  */
 public class DatabaseDao {
 

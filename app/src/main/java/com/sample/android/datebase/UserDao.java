@@ -12,29 +12,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @version v1.0
- * @项目: sample-user-manager-application
- * @包名： com.sample.android.datebase
- * @功能描述： user数据操作DAO-真正的与数据库交互
- * @作者： 杨松松
- * @创建时间： 2018/3/7 23:27
+ * version v1.0
+ * 项目:sample-user-manager-application
+ * 包名:com.sample.android.datebase
+ * 功能描述:user数据操作DAO-真正的与数据库交互
+ * 作者:杨松松
+ * 创建时间:2018/3/7 23:27
  */
 
 public class UserDao extends DatabaseDao {
 
-    // UserDao实例
+    /**
+     * UserDao实例
+     */
     private static UserDao instance = null;
 
-    // 继承父类的私有构造函数
+    /**
+     * 数据查询返回的Cursor
+     */
+    private Cursor mCursor;
+
+    /**
+     * 私有构造方法
+     */
     private UserDao() {
         super();
     }
 
     /**
      * 单利模式:懒汉式，线程不安全
-     *
-     * @param context
-     * @return
+     * @param context 上下文对象
+     * @return 返回的UserDao对象
      */
     public static UserDao getInstance(Context context) {
         if (instance == null) {
@@ -46,8 +54,8 @@ public class UserDao extends DatabaseDao {
     /**
      * 添加用户
      *
-     * @param userEntity
-     * @return
+     * @param userEntity 新增数据
+     * @return 返回操作结果
      */
     public long insertUser(UserEntity userEntity) {
         LogUtil.i("insertUser");
@@ -85,11 +93,19 @@ public class UserDao extends DatabaseDao {
 
     /**
      * 更新用户
-     *
-     * @param userEntity
+     * @param userEntity 更新的数据
      */
     public long updateUser(UserEntity userEntity) {
         LogUtil.i("updateUser");
+        if (null == userEntity) {
+            return -1L;
+        }
+
+        // 修改条件
+        String whereClause = "id=?";
+        // 修改添加参数
+        String[] whereArgs = {String.valueOf(userEntity.getId())};
+
         // 修改的值
         ContentValues values = getValues();
         values.put(DatabaseConfig.ID, userEntity.getId());
@@ -105,46 +121,42 @@ public class UserDao extends DatabaseDao {
         values.put(DatabaseConfig.ORDER_BY, userEntity.getOrderBy());
         values.put(DatabaseConfig.CREATE_TIME, userEntity.getCreateTime());
         values.put(DatabaseConfig.UPDATE_TIME, userEntity.getUpdateTime());
-        // 修改条件
-        String whereClause = "id=?";
-        // 修改添加参数
-        String[] whereArgs = {String.valueOf(userEntity.getId())};
         return this.getDb().update(DatabaseConfig.TABLE_NAME, values, whereClause, whereArgs);
     }
 
     /**
      * 查询所有用户
-     *
-     * @return
+     * @return 返回数据
      */
     public List<UserEntity> findAllUser() {
         LogUtil.i("findAllUser");
         List<UserEntity> entities = new ArrayList<>();
         String orderBy = "id desc";
-        Cursor cursor = this.getDb().query(DatabaseConfig.TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
+
+        mCursor = this.getDb().query(DatabaseConfig.TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
                 null, null, null, null, orderBy, null);
 
-        // 获取Cursor中数据
-        while (cursor.moveToNext()) {
-            UserEntity entity = new UserEntity();
-            entity.setId(cursor.getLong(cursor.getColumnIndex(DatabaseConfig.ID)));
-            entity.setLoginName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.LOGI_NNAME)));
-            entity.setZhName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.ZH_NAME)));
-            entity.setEnName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.EN_NAME)));
-            entity.setSex(cursor.getInt(cursor.getColumnIndex(DatabaseConfig.SEX)));
-            entity.setBirth(cursor.getString(cursor.getColumnIndex(DatabaseConfig.BIRTH)));
-            entity.setEmail(cursor.getString(cursor.getColumnIndex(DatabaseConfig.EMAIL)));
-            entity.setPhone(cursor.getString(cursor.getColumnIndex(DatabaseConfig.PHONE)));
-            entity.setAddress(cursor.getString(cursor.getColumnIndex(DatabaseConfig.ADDRESS)));
-            entity.setPassword(cursor.getString(cursor.getColumnIndex(DatabaseConfig.PASSWORD)));
-            entity.setOrderBy(cursor.getLong(cursor.getColumnIndex(DatabaseConfig.ORDER_BY)));
-            entity.setCreateTime(cursor.getString(cursor.getColumnIndex(DatabaseConfig.CREATE_TIME)));
-            entity.setUpdateTime(cursor.getString(cursor.getColumnIndex(DatabaseConfig.UPDATE_TIME)));
-            entities.add(entity);
-        }
-
-        if (cursor != null) {
-            cursor.close();
+        try {
+            // 获取Cursor中数据
+            while (mCursor.moveToNext()) {
+                UserEntity entity = new UserEntity();
+                entity.setId(mCursor.getLong(mCursor.getColumnIndex(DatabaseConfig.ID)));
+                entity.setLoginName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.LOGI_NNAME)));
+                entity.setZhName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.ZH_NAME)));
+                entity.setEnName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.EN_NAME)));
+                entity.setSex(mCursor.getInt(mCursor.getColumnIndex(DatabaseConfig.SEX)));
+                entity.setBirth(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.BIRTH)));
+                entity.setEmail(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.EMAIL)));
+                entity.setPhone(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.PHONE)));
+                entity.setAddress(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.ADDRESS)));
+                entity.setPassword(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.PASSWORD)));
+                entity.setOrderBy(mCursor.getLong(mCursor.getColumnIndex(DatabaseConfig.ORDER_BY)));
+                entity.setCreateTime(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.CREATE_TIME)));
+                entity.setUpdateTime(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.UPDATE_TIME)));
+                entities.add(entity);
+            }
+        } finally {
+            clearCursor();
         }
         return entities;
     }
@@ -152,38 +164,38 @@ public class UserDao extends DatabaseDao {
     /**
      * 分页查询
      *
-     * @param currentPage
-     * @param pageSize
-     * @return
+     * @param currentPage 当前页
+     * @param pageSize 分页大小
+     * @return 返回数据
      */
     public List<UserEntity> findUserPage(int currentPage, int pageSize) {
         LogUtil.i("findUserPage");
         List<UserEntity> entities = new ArrayList<>();
         String orderBy = "id desc";
-        Cursor cursor = this.getDb().query(DatabaseConfig.TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
+        mCursor = this.getDb().query(DatabaseConfig.TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
                 null, null, null, null, orderBy, "(" + currentPage + "," + pageSize + ")");
 
-        // 获取Cursor中数据
-        while (cursor.moveToNext()) {
-            UserEntity entity = new UserEntity();
-            entity.setId(cursor.getLong(cursor.getColumnIndex(DatabaseConfig.ID)));
-            entity.setLoginName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.LOGI_NNAME)));
-            entity.setZhName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.ZH_NAME)));
-            entity.setEnName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.EN_NAME)));
-            entity.setSex(cursor.getInt(cursor.getColumnIndex(DatabaseConfig.SEX)));
-            entity.setBirth(cursor.getString(cursor.getColumnIndex(DatabaseConfig.BIRTH)));
-            entity.setEmail(cursor.getString(cursor.getColumnIndex(DatabaseConfig.EMAIL)));
-            entity.setPhone(cursor.getString(cursor.getColumnIndex(DatabaseConfig.PHONE)));
-            entity.setAddress(cursor.getString(cursor.getColumnIndex(DatabaseConfig.ADDRESS)));
-            entity.setPassword(cursor.getString(cursor.getColumnIndex(DatabaseConfig.PASSWORD)));
-            entity.setOrderBy(cursor.getLong(cursor.getColumnIndex(DatabaseConfig.ORDER_BY)));
-            entity.setCreateTime(cursor.getString(cursor.getColumnIndex(DatabaseConfig.CREATE_TIME)));
-            entity.setUpdateTime(cursor.getString(cursor.getColumnIndex(DatabaseConfig.UPDATE_TIME)));
-            entities.add(entity);
-        }
-
-        if (cursor != null) {
-            cursor.close();
+        try {
+            // 获取Cursor中数据
+            while (mCursor.moveToNext()) {
+                UserEntity entity = new UserEntity();
+                entity.setId(mCursor.getLong(mCursor.getColumnIndex(DatabaseConfig.ID)));
+                entity.setLoginName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.LOGI_NNAME)));
+                entity.setZhName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.ZH_NAME)));
+                entity.setEnName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.EN_NAME)));
+                entity.setSex(mCursor.getInt(mCursor.getColumnIndex(DatabaseConfig.SEX)));
+                entity.setBirth(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.BIRTH)));
+                entity.setEmail(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.EMAIL)));
+                entity.setPhone(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.PHONE)));
+                entity.setAddress(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.ADDRESS)));
+                entity.setPassword(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.PASSWORD)));
+                entity.setOrderBy(mCursor.getLong(mCursor.getColumnIndex(DatabaseConfig.ORDER_BY)));
+                entity.setCreateTime(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.CREATE_TIME)));
+                entity.setUpdateTime(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.UPDATE_TIME)));
+                entities.add(entity);
+            }
+        } finally {
+            clearCursor();
         }
         return entities;
     }
@@ -200,27 +212,27 @@ public class UserDao extends DatabaseDao {
         String whereClause = DatabaseConfig.ID + " =?";
         String[] whereArgs = {String.valueOf(id)};
         String orderBy = "id desc";
-        Cursor cursor = this.getDb().query(DatabaseConfig.TABLE_NAME, null, whereClause, whereArgs, orderBy, null, null);
+        mCursor = this.getDb().query(DatabaseConfig.TABLE_NAME, null, whereClause, whereArgs, orderBy, null, null);
 
-        // 获取Cursor中数据
-        while (cursor.moveToNext()) {
-            entity.setId(cursor.getLong(cursor.getColumnIndex(DatabaseConfig.ID)));
-            entity.setLoginName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.LOGI_NNAME)));
-            entity.setZhName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.ZH_NAME)));
-            entity.setEnName(cursor.getString(cursor.getColumnIndex(DatabaseConfig.EN_NAME)));
-            entity.setSex(cursor.getInt(cursor.getColumnIndex(DatabaseConfig.SEX)));
-            entity.setBirth(cursor.getString(cursor.getColumnIndex(DatabaseConfig.BIRTH)));
-            entity.setEmail(cursor.getString(cursor.getColumnIndex(DatabaseConfig.EMAIL)));
-            entity.setPhone(cursor.getString(cursor.getColumnIndex(DatabaseConfig.PHONE)));
-            entity.setAddress(cursor.getString(cursor.getColumnIndex(DatabaseConfig.ADDRESS)));
-            entity.setPassword(cursor.getString(cursor.getColumnIndex(DatabaseConfig.PASSWORD)));
-            entity.setOrderBy(cursor.getLong(cursor.getColumnIndex(DatabaseConfig.ORDER_BY)));
-            entity.setCreateTime(cursor.getString(cursor.getColumnIndex(DatabaseConfig.CREATE_TIME)));
-            entity.setUpdateTime(cursor.getString(cursor.getColumnIndex(DatabaseConfig.UPDATE_TIME)));
-        }
-
-        if (cursor != null) {
-            cursor.close();
+        try {
+            // 获取Cursor中数据
+            while (mCursor.moveToNext()) {
+                entity.setId(mCursor.getLong(mCursor.getColumnIndex(DatabaseConfig.ID)));
+                entity.setLoginName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.LOGI_NNAME)));
+                entity.setZhName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.ZH_NAME)));
+                entity.setEnName(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.EN_NAME)));
+                entity.setSex(mCursor.getInt(mCursor.getColumnIndex(DatabaseConfig.SEX)));
+                entity.setBirth(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.BIRTH)));
+                entity.setEmail(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.EMAIL)));
+                entity.setPhone(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.PHONE)));
+                entity.setAddress(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.ADDRESS)));
+                entity.setPassword(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.PASSWORD)));
+                entity.setOrderBy(mCursor.getLong(mCursor.getColumnIndex(DatabaseConfig.ORDER_BY)));
+                entity.setCreateTime(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.CREATE_TIME)));
+                entity.setUpdateTime(mCursor.getString(mCursor.getColumnIndex(DatabaseConfig.UPDATE_TIME)));
+            }
+        } finally {
+            clearCursor();
         }
         return entity;
     }
@@ -232,6 +244,15 @@ public class UserDao extends DatabaseDao {
      */
     private ContentValues getValues() {
         return new ContentValues();
+    }
+
+    /**
+     * 关闭油标
+     */
+    private void clearCursor() {
+        if (mCursor != null) {
+            mCursor.close();
+        }
     }
 
 }

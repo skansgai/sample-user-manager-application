@@ -6,23 +6,59 @@
     tools:context="com.sample.android.activity.HomeActivity"
     android:background="@android:color/white">
 
+    <ImageView
+        android:id="@+id/app_icon_img"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher"/>
+
     <EditText
-        android:id="@+id/edit_name"
-        android:layout_width="match_parent"
+        android:id="@+id/edit_name_et"
+        android:layout_width="350dp"
         android:layout_height="45dp"
         android:drawableLeft="@mipmap/ic_user_name"
         android:drawablePadding="5dp"
         android:background="@drawable/background_edit"
         android:layout_margin="15dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:textSize="15sp"
+        android:hint="@string/login_name"/>
+
     <EditText
-        android:id="@+id/edit_pwd"
-        android:layout_width="match_parent"
+        android:id="@+id/edit_pwd_et"
+        android:layout_width="350dp"
         android:layout_height="45dp"
         android:drawableLeft="@mipmap/ic_user_pwd"
         android:drawablePadding="5dp"
         android:background="@drawable/background_edit"
-        android:layout_below="@id/edit_name"
+        android:layout_below="@id/edit_name_et"
         android:layout_margin="15dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:textSize="15sp"
+        android:hint="@string/login_pwd"/>
+
+    <TextView
+        android:id="@+id/login_tv"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/edit_pwd_et"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="@drawable/login_btn_bg"
+        android:layout_marginTop="50dp"
+        android:text="登录"
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/sig_in_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_tv"
+        android:layout_centerHorizontal="true"
+        android:autoLink="all"
+        android:layout_marginTop="25dp"
+        android:text="@string/login_name"
+        />
 </RelativeLayout>
