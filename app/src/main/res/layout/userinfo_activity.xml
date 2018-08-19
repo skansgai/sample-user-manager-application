@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/button_gray">
+
+    <include layout="@layout/app_title_rl"/>
+
+    <com.sample.android.widget.XListView
+        android:id="@+id/mlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#abcdef"
+        android:layout_below="@+id/tile_rl">
+    </com.sample.android.widget.XListView>
+</RelativeLayout>
