@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<com.sample.android.widget.XListViewItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:scrollbars="none">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <View
+                android:id="@+id/view_bg"
+                android:layout_width="360dp"
+                android:layout_height="80dp"
+                android:background="#ffffff"
+                />
+
+            <TextView
+                android:id="@+id/tv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Hello World!"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_delete"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="#ff0000"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#ffffff"
+            android:textSize="35px"/>
+    </LinearLayout>
+</com.sample.android.widget.XListViewItem>

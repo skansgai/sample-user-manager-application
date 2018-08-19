@@ -18,7 +18,7 @@ import com.sample.android.R;
  * version v1.0
  * 项目:sample-user-manager-application
  * 包名:com.sample.android.widget
- * 功能描述:
+ * 功能描述:XListView头布局
  * 作者:杨松松
  * 创建时间:2018/8/18 18:49
  */

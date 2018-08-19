@@ -3,4 +3,24 @@
     <string name="login_name">用户名</string>
     <string name="login_pwd">密码</string>
     <string name="tile_name">标题</string>
+
+    <string name="xlistview_footer_hint_last_item">更多item</string>
+    <string name="xlistview_footer_hint_loading">更多加载</string>
+
+    <string name="drop_down_list_header_default_text">点击可以刷新</string>
+    <string name="drop_down_list_header_pull_text">下拉可以刷新</string>
+    <string name="drop_down_list_header_release_text">松开可以刷新</string>
+    <string name="drop_down_list_header_loading_text">加载中…</string>
+    <string name="drop_down_list_footer_default_text">更多</string>
+    <string name="drop_down_list_footer_loading_text">加载中…</string>
+    <string name="drop_down_list_footer_no_more_text">没有更多了</string>
+
+    <string name="image_content">Image</string>
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
 </resources>

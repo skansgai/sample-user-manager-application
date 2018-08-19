@@ -1,19 +1,24 @@
 package com.sample.android.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.sample.android.R;
+import com.sample.android.adapter.UserInfoAdapter;
 import com.sample.android.util.LogUtil;
 import com.sample.android.widget.XListView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * version v1.0
@@ -29,13 +34,13 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
 
     private TextView backTv;
     private TextView moreTv;
-    private String[]             mStrings  = { "Aaaaaa", "Bbbbbb", "Cccccc", "Dddddd", "Eeeeee",
+    private String[] mStrings  = { "Aaaaaa", "Bbbbbb", "Cccccc", "Dddddd", "Eeeeee",
             "Ffffff", "Gggggg", "Hhhhhh", "Iiiiii", "Jjjjjj", "Kkkkkk", "Llllll", "Mmmmmm",
             "Nnnnnn",                     };
     private LinkedList<String> listItems = null;
     private XListView listView  = null;
-    private ArrayAdapter<String> adapter;
-
+    private UserInfoAdapter adapter;
+    private List<String> resurce;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +48,15 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userinfo_activity);
         initView();
+        initDate();
         initListener();
+    }
+
+    private void initDate() {
+        resurce = new ArrayList<>();
+        for (int i = 0; i < mStrings.length; i++) {
+            resurce.add(mStrings[i]);
+        }
     }
 
     /**
@@ -54,6 +67,16 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
         listView = (XListView)findViewById(R.id.mlist);
         backTv = (TextView) findViewById(R.id.tile_back_tv);
         moreTv = (TextView) findViewById(R.id.tile_more_tv);
+
+
+    }
+
+    /**
+     * 设置监听
+     */
+    private void initListener() {
+        backTv.setOnClickListener(this);
+        moreTv.setOnClickListener(this);
 
         listView.setXListViewListener(new XListView.IXListViewListener() {
 
@@ -67,27 +90,13 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
                 new GetDataTask(false).execute();
             }
         });
+
         listItems = new LinkedList<String>();
         listItems.addAll(Arrays.asList(mStrings));
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        adapter = new UserInfoAdapter(this, handler, resurce);
         listView.setAdapter(adapter);
         listView.setPullLoadEnable(true);
         listView.setPullRefreshEnable(true);
-    }
-
-    /**
-     * 设置监听
-     */
-    private void initListener() {
-        backTv.setOnClickListener(this);
-        moreTv.setOnClickListener(this);
-
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//            }
-//        });
     }
 
     /**
@@ -142,4 +151,12 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
             super.onPostExecute(result);
         }
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 }
