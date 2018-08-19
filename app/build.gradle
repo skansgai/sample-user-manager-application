@@ -32,4 +32,5 @@ dependencies {
     testCompile 'org.mockito:mockito-core:+'
     androidTestCompile 'org.mockito:mockito-android:+'
     implementation 'com.harium.database:sqlite:1.0.5'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
 }

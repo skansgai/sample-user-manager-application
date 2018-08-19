@@ -2,40 +2,44 @@ package com.sample.android.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
-import android.view.View;
 
+import com.sample.android.R;
 import com.sample.android.util.LogUtil;
 
 /**
- * @version v1.0
- * @项目: sample-user-manager-application
- * @包名： com.sample.android.activity
- * @功能描述：app的启动页面
- * @作者： 杨松松
- * @创建时间：2018/7/11 20:38
+ * version v1.0
+ * 项目:sample-user-manager-application
+ * 包名:com.sample.android.activity
+ * 功能描述:app的启动页面
+ * 作者:杨松松
+ * 创建时间:2018/7/11 20:38
  */
 public class StartActivity extends Activity {
     private static final String TAG = StartActivity.class.getName();
     private Handler mHandler = new Handler();
-    private final static int START_TIME= 2000;
+    private final static int START_TIME = 2000;
+
     /**
      * onCreate()生命周期
-     * @param view
+     *
+     * @param savedInstanceState
      */
     @Override
-    public void setContentView(View view) {
-        LogUtil.i(TAG, "setContentView");
-        super.setContentView(view);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.launch_activity);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-            gotoLogin();
+                gotoLogin();
             }
         }, START_TIME);
-
     }
+
 
     /**
      * 登录到主页的方法
@@ -51,6 +55,7 @@ public class StartActivity extends Activity {
 
     /**
      * 屏蔽物理返回按键
+     *
      * @param keyCode
      * @param event
      * @return

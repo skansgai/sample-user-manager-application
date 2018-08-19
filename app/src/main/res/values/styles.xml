@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
         <!-- 通过windowBackground设置背景色，背景图片、能解析出图片的xml文件等 -->
-        <item name="android:windowBackground">@drawable/ic_launcher_foreground</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
