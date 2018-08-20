@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sample.android.R;
+import com.sample.android.widget.SwipeListLayout;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class UserInfoAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<String> resurce;
     private Handler mHandler;
+    private SwipeListLayout swipeListLayout;
 
     public UserInfoAdapter(@Nullable Context context, @Nullable Handler activityHandler, @Nullable List<String> resurce) {
         this.mContext = context;
@@ -57,11 +59,29 @@ public class UserInfoAdapter extends BaseAdapter {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.xlistview_item, null);
-            viewHolder.contentTv = convertView.findViewById(R.id.tv_text);
+            convertView = inflater.inflate(R.layout.swiplist_item, null);
+            viewHolder.contentTv = convertView.findViewById(R.id.tv_name);
             convertView.setTag(viewHolder);
         }
         viewHolder = (ViewHolder) convertView.getTag();
+        swipeListLayout = (SwipeListLayout) convertView;
+        swipeListLayout.setSmooth(true);
+        swipeListLayout.setOnSwipeStatusListener(new SwipeListLayout.OnSwipeStatusListener() {
+            @Override
+            public void onStatusChanged(SwipeListLayout.Status status) {
+
+            }
+
+            @Override
+            public void onStatusCloseAnimation() {
+
+            }
+
+            @Override
+            public void onStatusOpenAnimation() {
+
+            }
+        });
         viewHolder.contentTv.setText(resurce.get(position));
         return convertView;
     }
