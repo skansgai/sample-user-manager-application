@@ -2,6 +2,7 @@ package com.sample.android.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -22,26 +23,49 @@ import com.sample.android.util.LogUtil;
 
 public class HomeActivity extends Activity implements View.OnClickListener {
 
-    // 日志打印标签
+
+    /**
+     * 日志打印标签
+     */
     private final static String TAG = HomeActivity.class.getName();
-    // app图标
+
+    /**
+     * app图标
+     */
     private ImageView appIcon;
-    // 用户名输入框
+
+    /**
+     * 用户名输入框
+     */
     private EditText nameEdit;
-    // 密码输入框
+
+    /**
+     * 密码输入框
+     */
     private EditText passwordEdit;
-    // 登录按钮
+
+    /**
+     * 登录按钮
+     */
     private TextView loginTv;
+
+    /**
+     * 注册按钮
+     */
+    private TextView login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         initView();
+        setButtomLine(login);
         initListener();
     }
 
-    // UI控件初始化
+    /**
+     * UI控件初始化
+     */
     private void initView() {
         LogUtil.i(TAG, "");
 
@@ -49,6 +73,7 @@ public class HomeActivity extends Activity implements View.OnClickListener {
         nameEdit = (EditText) findViewById(R.id.edit_name_et);
         passwordEdit = (EditText) findViewById(R.id.edit_pwd_et);
         loginTv = (TextView) findViewById(R.id.login_tv);
+        login = (TextView) findViewById(R.id.log_in_tv);
     }
 
     private void initListener() {
@@ -76,5 +101,14 @@ public class HomeActivity extends Activity implements View.OnClickListener {
     private void login() {
         Intent intent = new Intent(HomeActivity.this, UserInformationActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * 设置TextView文字下划线
+     *
+     * @param textView
+     */
+    private void setButtomLine(TextView textView) {
+        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 }

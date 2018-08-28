@@ -4,7 +4,7 @@ package com.sample.android.util;
  * @version v1.0
  * @项目: sample-user-manager-application
  * @包名： com.sample.android.util
- * @功能描述：  日志打印工具类.应用Log日志对APP的信息泄露极为致命，所以项目上线时需要关闭项目整体的Log日志输出
+ * @功能描述： 日志打印工具类.应用Log日志对APP的信息泄露极为致命，所以项目上线时需要关闭项目整体的Log日志输出
  * @作者： 杨松松
  * @创建时间： 2018/3/8 22:17
  */
@@ -14,7 +14,9 @@ import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.support.v4.BuildConfig;
 import android.util.Log;
+
 import com.sample.android.config.MyApplication;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

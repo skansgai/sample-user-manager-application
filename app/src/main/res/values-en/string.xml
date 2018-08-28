@@ -2,5 +2,5 @@
     <string name="app_name">sample-userEntity-manage-application</string>
     <string name="login_name">name</string>
     <string name="login_pwd">password</string>
-    <string name="tile_name">Tile</string>
+    <string name="tile_name">Title</string>
 </resources>

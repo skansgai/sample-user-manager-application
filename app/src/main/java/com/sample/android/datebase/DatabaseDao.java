@@ -13,15 +13,23 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class DatabaseDao {
 
-    // SQLiteDataBase对象
+    /**
+     * SQLiteDataBase对象
+     */
+
     private static SQLiteDatabase db;
-    // 上下文对象
+    /**
+     * 上下文对象
+     */
+
     private static Context mContext;
 
     protected DatabaseDao() {
     }
 
-    // DatabaseDao实例
+    /**
+     * DatabaseDao实例
+     */
     private static class DataBaseHelp {
         private static DatabaseDao INSTANCE = new DatabaseDao();
     }

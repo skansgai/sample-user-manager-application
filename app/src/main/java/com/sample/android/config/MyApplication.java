@@ -12,9 +12,9 @@ import android.app.Application;
  */
 public class MyApplication extends Application {
 
-    private static MyApplication application ;
+    private static MyApplication application;
 
-    public static Application getInsistence(){
+    public static Application getInsistence() {
         return application;
     }
 

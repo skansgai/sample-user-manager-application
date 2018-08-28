@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sample.android.R;
 import com.sample.android.adapter.UserInfoAdapter;
+import com.sample.android.model.entity.UserEntity;
 import com.sample.android.util.LogUtil;
 import com.sample.android.widget.XListView;
 
@@ -28,19 +29,45 @@ import java.util.List;
  * 作者:杨松松
  * 创建时间:2018/8/18 16:08
  */
-public class UserInformationActivity extends Activity implements View.OnClickListener{
+public class UserInformationActivity extends Activity implements View.OnClickListener {
 
     private final static String TAG = UserInformationActivity.class.getName();
 
+    /**
+     * 返回按钮
+     */
     private TextView backTv;
+
+    /**
+     * 更多按钮
+     */
     private TextView moreTv;
-    private String[] mStrings  = { "Aaaaaa", "Bbbbbb", "Cccccc", "Dddddd", "Eeeeee",
-            "Ffffff", "Gggggg", "Hhhhhh", "Iiiiii", "Jjjjjj", "Kkkkkk", "Llllll", "Mmmmmm",
-            "Nnnnnn",                     };
+
+    /**
+     * 数据集合
+     */
     private LinkedList<String> listItems = null;
-    private XListView listView  = null;
+
+    /**
+     * 列表对象
+     */
+    private XListView listView = null;
+
+    /**
+     * 适配器对象
+     */
     private UserInfoAdapter adapter;
-    private List<String> resurce;
+
+    /**
+     * 用户信息集合
+     */
+    private List<UserEntity> recurse;
+
+    /**
+     * 数据源
+     */
+    private String[] mStrings = {"Aaaaaa", "Bbbbbb", "Cccccc", "Dddddd", "Eeeeee", "Ffffff", "Gggggg",
+            "Hhhhhh", "Iiiiii", "Jjjjjj", "Kkkkkk", "Llllll", "Mmmmmm", "Nnnnnn",};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,10 +79,16 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
         initListener();
     }
 
+    /**
+     * 初始化数据
+     */
     private void initDate() {
-        resurce = new ArrayList<>();
+        recurse = new ArrayList<>();
         for (int i = 0; i < mStrings.length; i++) {
-            resurce.add(mStrings[i]);
+            UserEntity userEntity = new UserEntity();
+            userEntity.setZhName(mStrings[i]);
+            userEntity.setAddress(mStrings[i] + i);
+            recurse.add(userEntity);
         }
     }
 
@@ -64,7 +97,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
      */
     private void initView() {
         LogUtil.i(TAG, "");
-        listView = (XListView)findViewById(R.id.mlist);
+        listView = (XListView) findViewById(R.id.mlist);
         backTv = (TextView) findViewById(R.id.tile_back_tv);
         moreTv = (TextView) findViewById(R.id.tile_more_tv);
 
@@ -93,7 +126,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
 
         listItems = new LinkedList<String>();
         listItems.addAll(Arrays.asList(mStrings));
-        adapter = new UserInfoAdapter(this, handler, resurce);
+        adapter = new UserInfoAdapter(this, recurse);
         listView.setAdapter(adapter);
         listView.setPullLoadEnable(true);
         listView.setPullRefreshEnable(true);
@@ -101,6 +134,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
 
     /**
      * 实现点击事件方法
+     *
      * @param v
      */
     @Override
@@ -116,11 +150,14 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
     }
 
 
+    /**
+     * 回调监听
+     */
     private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
         private boolean isDropDown;
 
-        public GetDataTask(boolean isDropDown){
+        public GetDataTask(boolean isDropDown) {
             this.isDropDown = isDropDown;
         }
 

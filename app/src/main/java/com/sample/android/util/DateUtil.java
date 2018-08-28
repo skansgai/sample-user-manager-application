@@ -2,6 +2,7 @@ package com.sample.android.util;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;

@@ -79,9 +79,9 @@ public class XListViewHeader extends LinearLayout {
         addView(mContainer, lp);
         setGravity(Gravity.BOTTOM);
 
-        mArrowImageView = (ImageView)findViewById(R.id.xlistview_header_arrow);
-        mHintTextView = (TextView)findViewById(R.id.xlistview_header_hint_textview);
-        mProgressBar = (ProgressBar)findViewById(R.id.xlistview_header_progressbar);
+        mArrowImageView = (ImageView) findViewById(R.id.xlistview_header_arrow);
+        mHintTextView = (TextView) findViewById(R.id.xlistview_header_hint_textview);
+        mProgressBar = (ProgressBar) findViewById(R.id.xlistview_header_progressbar);
         //旋转动画
         mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
@@ -99,7 +99,7 @@ public class XListViewHeader extends LinearLayout {
     }
 
     public void setState(int state) {
-        if (state == mState) return ;
+        if (state == mState) return;
 
         if (state == STATE_REFRESHING) {// 显示进度
             mArrowImageView.clearAnimation();
@@ -110,7 +110,7 @@ public class XListViewHeader extends LinearLayout {
             mProgressBar.setVisibility(View.INVISIBLE);
         }
 
-        switch(state){
+        switch (state) {
             case STATE_NORMAL:
                 if (mState == STATE_READY) {
                     mArrowImageView.startAnimation(mRotateDownAnim);
@@ -138,6 +138,7 @@ public class XListViewHeader extends LinearLayout {
 
     /**
      * 设置下拉头有效高度
+     *
      * @param height
      */
     public void setVisiableHeight(int height) {
@@ -151,6 +152,7 @@ public class XListViewHeader extends LinearLayout {
 
     /**
      * 获得下拉头有效高度
+     *
      * @return
      */
     public int getVisiableHeight() {

@@ -7,7 +7,7 @@ package com.sample.android.config;
  * @包名： com.sample.android.server
  * @功能描述： SQLite是配置
  * @作者： 杨松松
- * @创建时间：  2017/11/19 16:26
+ * @创建时间： 2017/11/19 16:26
  */
 
 public class DatabaseConfig {

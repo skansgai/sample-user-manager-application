@@ -2,7 +2,9 @@ package com.sample.android.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
@@ -24,16 +26,27 @@ import com.sample.android.R;
  * 创建时间:2018/8/18 22:33
  */
 public class XListView extends ListView implements AbsListView.OnScrollListener {
+
     private final static String TAG = XListView.class.getName();
+
     /**
      * 保存下拉位置Y坐标
      */
     private float mLastY = -1;
+
+    /**
+     * Scroller
+     */
     private Scroller mScroller;
+
     /**
      * 滑动监听
      */
     private OnScrollListener mScrollListener;
+
+    /**
+     * XListView监听
+     */
     private IXListViewListener mListViewListener;
 
     /**
@@ -55,17 +68,71 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
      * 下拉头部高度
      */
     private int mHeaderViewHeight;
+
     /**
      * 能否下拉刷新
      */
     private boolean mEnablePullRefresh = true;
+
     /**
      * 是否正在刷新
      */
     private boolean mPullRefreshing = false;
 
-    // footer view
+
+    /**
+     * 滑动速度追踪类
+     */
+    private VelocityTracker mVelocityTracker;
+
+    /**
+     * ACTION_DOWN的坐标
+     */
+    private float xDown;
+    private float yDown;
+
+    /**
+     * 判断横滑、竖滑的最小值
+     */
+    private int MAX_Y = 5;
+    private int MAX_X = 3;
+
+    /**
+     * 当前点击的position
+     */
+    private int mTouchPosition;
+
+    /**
+     * 当前点击的item View
+     */
+    private XListViewItem mTouchView;
+
+    /**
+     * 当前触摸状态
+     */
+    private int mTouchState = TOUCH_STATE_NONE;
+
+    /**
+     * ACTION_DOWN时设置的状态
+     */
+    private static final int TOUCH_STATE_NONE = 0;
+
+    /**
+     * 横滑
+     */
+    private static final int TOUCH_STATE_X = 1;
+
+    /**
+     * 竖滑
+     */
+    private static final int TOUCH_STATE_Y = 2;
+
+
+    /**
+     * footer view
+     */
     private XListViewFooter mFooterView;
+
     private boolean mEnablePullLoad;
     private boolean mPullLoading;
     private boolean mIsFooterReady = false;
@@ -126,12 +193,15 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
         mFooterView = new XListViewFooter(context);
         mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mHeaderViewHeight = mHeaderViewContent.getHeight(); // 获得下拉头高度
-                getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+                    @Override
+                    public void onGlobalLayout() {
+                        mHeaderViewHeight = mHeaderViewContent.getHeight(); // 获得下拉头高度
+                        getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+
+        MAX_X = dp2px(MAX_X);
+        MAX_Y = dp2px(MAX_Y);
     }
 
     @Override
@@ -194,7 +264,7 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
     }
 
     /**
-     * stop load more, reset footer view.
+     * stop load ic_more, reset footer view.
      * 停止加载更多，重置footer
      */
     public void stopLoadMore() {
@@ -214,6 +284,42 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
         mHeaderTimeView.setText(time);
     }
 
+
+    /**
+     * 创建VelocityTracker对象，并将触摸事件加入到VelocityTracker当中
+     *
+     * @param event
+     */
+    private void createVelocityTracker(MotionEvent event) {
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        mVelocityTracker.addMovement(event);
+    }
+
+    /**
+     * 获取手指在滑动的速度
+     *
+     * @return 滑动速度，以每秒钟移动了多少像素值为单位
+     */
+    private int getScrollVelocity() {
+        mVelocityTracker.computeCurrentVelocity(1000);
+        int velocity = (int) mVelocityTracker.getXVelocity();
+        return Math.abs(velocity);
+    }
+
+    /**
+     * 回收VelocityTracker对象
+     */
+    private void recycleVelocityTracker() {
+        mVelocityTracker.recycle();
+        mVelocityTracker = null;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return super.onInterceptTouchEvent(ev);
+    }
 
     /**
      * 更新头部高度
@@ -264,7 +370,7 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
         int height = mFooterView.getBottomMargin() + (int) delta;
         if (mEnablePullLoad && !mPullLoading) {
             if (height > PULL_LOAD_MORE_DELTA) { // height enough to invoke load上拉足够高才去加载
-                // more.
+                // ic_more.
                 mFooterView.setState(XListViewFooter.STATE_READY);
             } else {
                 mFooterView.setState(XListViewFooter.STATE_NORMAL);
@@ -303,6 +409,16 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+
+        if (ev.getAction() != MotionEvent.ACTION_DOWN && mTouchView == null) {
+            return super.onTouchEvent(ev);
+        }
+
+        // 加入触摸跟踪类
+        createVelocityTracker(ev);
+        float moveX;
+        float moveY;
+
         if (mLastY == -1) {
             mLastY = ev.getRawY();
         }
@@ -310,6 +426,28 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mLastY = ev.getRawY();
+
+                int prevPosition = mTouchPosition;
+                xDown = ev.getX();
+                yDown = ev.getY();
+                mTouchState = TOUCH_STATE_NONE;
+                mTouchPosition = pointToPosition((int) xDown, (int) yDown);
+                // 当前点击的Item正好是已经显示Menu的Item
+                if (prevPosition == mTouchPosition && mTouchView != null && mTouchView.isMenuOpen()) {
+                    mTouchState = TOUCH_STATE_X;
+                    return true; // 返回true表示接受了ACTION_DOWN，那么后面的事件依然会分发给MyListView
+                }
+                View view = getChildAt(mTouchPosition - getFirstVisiblePosition());
+                // 点击的Item不是正在显示Menu的Item，则直接关闭Menu
+                if (mTouchView != null && mTouchView.isMenuOpen()) {
+                    mTouchView.smoothCloseMenu();
+                    mTouchView = null;
+                    return false; // 返回false，那么后面的事件全部会接收不到
+                }
+                if (view instanceof XListViewItem) {
+                    mTouchView = (XListViewItem) view;
+                }
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 final float deltaY = ev.getRawY() - mLastY; // 下拉或者上拉了多少offset
@@ -322,6 +460,27 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
                         && (mFooterView.getBottomMargin() > 0 || deltaY < 0)) {
                     updateFooterHeight(-deltaY / OFFSET_RADIO);
                 }
+
+                moveX = ev.getX() - xDown;
+                moveY = ev.getY() - yDown;
+
+                if (mTouchState == TOUCH_STATE_X) {
+                    // 如果是横滑，则设置leftMargin
+                    if (!mTouchView.isMenuOpen()) {
+                        mTouchView.setLeftMargin((int) moveX);
+                    } else {
+                        mTouchView.setLeftMargin((int) (moveX - mTouchView.getMenuWidth()));
+                    }
+                    return true;
+                } else if (mTouchState == TOUCH_STATE_NONE) {
+                    // 设置横滑还是竖滑
+                    if (Math.abs(moveY) > MAX_Y) {
+                        mTouchState = TOUCH_STATE_Y;
+                    } else if (Math.abs(moveX) > MAX_X) {
+                        mTouchState = TOUCH_STATE_X;
+                    }
+                }
+
                 break;
             default:
                 mLastY = -1;
@@ -341,6 +500,26 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
                     }
                     resetFooterHeight();
                 }
+
+                moveX = ev.getX() - xDown;
+                if (mTouchState == TOUCH_STATE_X) {
+                    // 若滑动的距离是Menu宽度的一半，或者左滑速度大于200,
+                    if (-moveX > mTouchView.getMenuWidth() / 2 || (moveX < 0 && getScrollVelocity() > 200)) {
+                        // 若Menu是关闭的
+                        if (!mTouchView.isMenuOpen()) {
+                            // 滑动打开Menu
+                            mTouchView.smoothOpenMenu();
+                        }
+                    } else {
+                        // 滑动关闭Menu
+                        mTouchView.smoothCloseMenu();
+                        mTouchView = null;
+                        mTouchPosition = -1;
+                    }
+                    recycleVelocityTracker();
+                    return true;
+                }
+
                 break;
         }
         return super.onTouchEvent(ev);
@@ -357,7 +536,7 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
             if (mScrollBack == SCROLLBACK_HEADER) {
                 mHeaderView.setVisiableHeight(mScroller.getCurrY());
             } else {
-               mFooterView.setBottomMargin(mScroller.getCurrY());
+                mFooterView.setBottomMargin(mScroller.getCurrY());
             }
             postInvalidate();
             invokeOnScrolling();
@@ -387,19 +566,24 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
 
     /**
      * you can listen ListView.OnScrollListener or this one. it will invoke
-     * onXScrolling when header/footer scroll back.
+     * onXScrolling when header/footer scroll ic_back.
      */
     public interface OnXScrollListener extends OnScrollListener {
         public void onXScrolling(View view);
     }
 
     /**
-     * implements this interface to get refresh/load more event.
+     * implements this interface to get refresh/load ic_more event.
      * 下拉和上拉监听器
      */
     public interface IXListViewListener {
         public void onRefresh();
 
         public void onLoadMore();
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getContext().getResources().getDisplayMetrics());
     }
 }

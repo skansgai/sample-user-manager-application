@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">sample-userEntity-manage-application</string>
     <string name="login_name">用户名</string>
+    <string name="log_in"><u>注册</u></string>
     <string name="login_pwd">密码</string>
     <string name="tile_name">标题</string>
 
