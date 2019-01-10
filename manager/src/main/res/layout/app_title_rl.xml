@@ -35,11 +35,12 @@
         android:gravity="center" />
 
     <TextView
+        android:id="@+id/add"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="37dp"
+        android:layout_marginRight="40dp"
         android:background="@mipmap/ic_add" />
 
 </RelativeLayout>

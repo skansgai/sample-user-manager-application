@@ -18,11 +18,11 @@ android {
     buildTypes {
         release {
             minifyEnabled true  //打开混淆
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.release'
         }
         debug {
             minifyEnabled false //关闭混淆
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.debug'
         }
     }
 

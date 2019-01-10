@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/button_gray">
@@ -7,9 +8,11 @@
     <include layout="@layout/app_title_rl" />
 
     <com.sample.android.widget.XListView
-        android:id="@+id/mlist"
+        android:id="@+id/my_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tile_rl"
-        android:background="#abcdef"></com.sample.android.widget.XListView>
+        android:background="#abcdef"
+        android:visibility="visible"
+        tools:ignore="UnknownIdInLayout" />
 </RelativeLayout>

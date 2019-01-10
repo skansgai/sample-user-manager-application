@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
+        <!-- 通过windowBackground设置背景色，背景图片、能解析出图片的xml文件等 -->
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    
+    <declare-styleable name="GridRadioGroupView">
+        <attr name="numColumns" format="integer"/>
+        <attr name="horizontalspacing" format="dimension"/>
+        <attr name="verticalspacing" format="dimension"/>
+    </declare-styleable>
+
+    <!--PopupWindow动画-->
+    <style name="popupwindow_anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_exit_anim</item>
+    </style>
+
+</resources>

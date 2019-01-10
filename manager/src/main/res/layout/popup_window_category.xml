@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.sample.android.widget.GridRadioGroupView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:numColumns="4"
+        app:horizontalspacing="10dp"
+        app:verticalspacing="10dp"
+        android:background="@color/colorAccent">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableTop="@mipmap/ic_add"
+            android:gravity="center"
+            android:text="@string/login_name" />
+    </com.sample.android.widget.GridRadioGroupView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/button_blue"
+            android:drawableLeft="@mipmap/ic_add"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="按名称排序"
+            android:textColor="@android:color/white"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/button_blue"
+            android:drawableLeft="@mipmap/ic_add"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="按名称排序"
+            android:textColor="@android:color/white"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/button_blue"
+            android:drawableLeft="@mipmap/ic_add"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="按时间排序"
+            android:textColor="@android:color/white"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/black" />
+    </LinearLayout>
+</LinearLayout>
