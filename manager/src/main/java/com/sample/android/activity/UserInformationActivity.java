@@ -7,13 +7,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sample.android.R;
 import com.sample.android.adapter.UserInfoAdapter;
 import com.sample.android.model.entity.UserEntity;
 import com.sample.android.util.LogUtil;
+import com.sample.android.widget.TopUtilsPopupWindow;
 import com.sample.android.widget.XListView;
 
 import java.util.ArrayList;
@@ -64,10 +68,19 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
     private List<UserEntity> recurse;
 
     /**
+     * 添加文件
+     */
+    private TextView addUser;
+
+    private RelativeLayout tile_rl;
+
+    /**
      * 数据源
      */
     private String[] mStrings = {"Aaaaaa", "Bbbbbb", "Cccccc", "Dddddd", "Eeeeee", "Ffffff", "Gggggg",
             "Hhhhhh", "Iiiiii", "Jjjjjj", "Kkkkkk", "Llllll", "Mmmmmm", "Nnnnnn",};
+
+    private TopUtilsPopupWindow popupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,12 +109,13 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
      * UI空件初始化
      */
     private void initView() {
-        LogUtil.i(TAG, "");
-        listView = (XListView) findViewById(R.id.mlist);
+        LogUtil.i(TAG, "initView");
+        tile_rl = (RelativeLayout) findViewById(R.id.tile_rl);
         backTv = (TextView) findViewById(R.id.tile_back_tv);
         moreTv = (TextView) findViewById(R.id.tile_more_tv);
-
-
+        addUser = (TextView) findViewById(R.id.add);
+        listView = (XListView) findViewById(R.id.my_list);
+        popupWindow = new TopUtilsPopupWindow(UserInformationActivity.this, 1);
     }
 
     /**
@@ -110,9 +124,8 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
     private void initListener() {
         backTv.setOnClickListener(this);
         moreTv.setOnClickListener(this);
-
+        addUser.setOnClickListener(this);
         listView.setXListViewListener(new XListView.IXListViewListener() {
-
             @Override
             public void onRefresh() {
                 new GetDataTask(true).execute();
@@ -124,6 +137,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
             }
         });
 
+        // 建立Adapter并且绑定数据源
         listItems = new LinkedList<String>();
         listItems.addAll(Arrays.asList(mStrings));
         adapter = new UserInfoAdapter(this, recurse);
@@ -141,14 +155,21 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tile_back_tv:
-
+                LogUtil.i(TAG, "back");
                 break;
             case R.id.tile_more_tv:
-
+                LogUtil.i(TAG, "more");
+                break;
+            case R.id.add:
+                LogUtil.i(TAG, "add");
+                if (!popupWindow.isShowing()) {
+                    popupWindow.showPopupWindowAsButton(addUser);
+                } else {
+                    popupWindow.dismiss();
+                }
                 break;
         }
     }
-
 
     /**
      * 回调监听
@@ -166,18 +187,15 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                ;
             }
             return mStrings;
         }
 
         @Override
         protected void onPostExecute(String[] result) {
-
             if (isDropDown) {
                 listItems.addFirst("Added after drop down");
                 adapter.notifyDataSetChanged();
-
                 listView.stopRefresh();
             } else {
                 listItems.add("Added after on bottom");
@@ -189,6 +207,17 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
         }
     }
 
+    @SuppressLint("ResourceType")
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId() == R.id.add) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.layout.popup_window_category, menu);
+            menu.setHeaderTitle("菜单");
+            registerForContextMenu(addUser);
+        }
+    }
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -196,4 +225,5 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
             super.handleMessage(msg);
         }
     };
+
 }
