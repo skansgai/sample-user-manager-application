@@ -9,9 +9,12 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sample.android.R;
 import com.sample.android.adapter.UserInfoAdapter;
@@ -159,6 +162,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
                 break;
             case R.id.tile_more_tv:
                 LogUtil.i(TAG, "more");
+                showPopupMenu();
                 break;
             case R.id.add:
                 LogUtil.i(TAG, "add");
@@ -206,6 +210,30 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
             super.onPostExecute(result);
         }
     }
+
+    private void showPopupMenu(){
+        PopupMenu popupMenu = new PopupMenu(this, moreTv);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_1:
+                        Toast.makeText(UserInformationActivity.this,"Option 1",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_2:
+                        Toast.makeText(UserInformationActivity.this,"Option 2",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_3:
+                        Toast.makeText(UserInformationActivity.this,"Option 3",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
+
 
     @SuppressLint("ResourceType")
     @Override

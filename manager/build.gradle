@@ -23,6 +23,14 @@ android {
         debug {
             minifyEnabled false //关闭混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.debug'
+            debuggable true
+            jniDebuggable true
+        }
+        uat {
+            minifyEnabled false //关闭混淆
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.debug'
+            debuggable true
+            jniDebuggable true
         }
     }
 
@@ -58,5 +66,4 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-android:+'
     implementation 'com.harium.database:sqlite:1.0.5'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-
 }
