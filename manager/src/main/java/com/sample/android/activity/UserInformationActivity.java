@@ -20,6 +20,7 @@ import com.sample.android.R;
 import com.sample.android.adapter.UserInfoAdapter;
 import com.sample.android.model.entity.UserEntity;
 import com.sample.android.util.LogUtil;
+import com.sample.android.util.PublicTools;
 import com.sample.android.widget.TopUtilsPopupWindow;
 import com.sample.android.widget.XListView;
 
@@ -90,6 +91,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
         LogUtil.i(TAG, "");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userinfo_activity);
+        PublicTools.setStatusBar(this);
         initView();
         initDate();
         initListener();
