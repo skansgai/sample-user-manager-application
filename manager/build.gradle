@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+//apply from:"../flavors/${rootProject.txt.product}/build.gradle"
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'

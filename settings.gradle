@@ -1,1 +1,1 @@
-include ':manager'
+include ':manager',':flavors'

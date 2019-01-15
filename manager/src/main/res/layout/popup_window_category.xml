@@ -8,7 +8,7 @@
     <com.sample.android.widget.GridRadioGroupView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:numColumns="4"
+        app:numColumns="3"
         app:horizontalspacing="10dp"
         app:verticalspacing="10dp"
         android:background="@color/colorAccent">
