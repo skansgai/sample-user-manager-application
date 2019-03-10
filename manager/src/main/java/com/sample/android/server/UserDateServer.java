@@ -32,7 +32,28 @@ public interface UserDateServer {
      * @param context 上下文对象
      * @param id
      */
-    void removeUserById(Context context, long id);
+    long removeUserById(Context context, long id);
+
+    /**
+     * 清空用户表
+     * @param context
+     * @return
+     */
+    void removeAllUser(Context context);
+
+    /**
+     * 清空用户表
+     * @param context
+     * @return
+     */
+    void deleteUserTable(Context context);
+
+    /**
+     * 清空用户表
+     * @param context
+     * @return
+     */
+    void dropUserTable(Context context);
 
     /**
      * 更新数据
@@ -40,7 +61,7 @@ public interface UserDateServer {
      * @param context    上下文对象
      * @param userEntity 返回user对象
      */
-    void updateUser(Context context, UserEntity userEntity);
+    long updateUser(Context context, UserEntity userEntity);
 
     /**
      * 查询所有记录

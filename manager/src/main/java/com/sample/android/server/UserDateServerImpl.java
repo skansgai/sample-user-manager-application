@@ -63,9 +63,32 @@ public class UserDateServerImpl implements UserDateServer {
      * @param id
      */
     @Override
-    public void removeUserById(Context context, long id) {
+    public long removeUserById(Context context, long id) {
         LogUtil.i("removeUserById");
-        UserDao.getInstance(context).removeUserById(id);
+        return UserDao.getInstance(context).removeUserById(id);
+    }
+
+    /**
+     * 清空用户表
+     * @param context
+     */
+    @Override
+    public void removeAllUser(Context context) {
+        UserDao.getInstance(context).deleteUserTable();
+    }
+
+    /**
+     * 删除用户表
+     * @param context
+     */
+    @Override
+    public void deleteUserTable(Context context) {
+        UserDao.getInstance(context).deleteUserTable();
+    }
+
+    @Override
+    public void dropUserTable(Context context) {
+        UserDao.getInstance(context).dropUserTable();
     }
 
     /**
@@ -75,9 +98,11 @@ public class UserDateServerImpl implements UserDateServer {
      * @param userEntity 返回user对象
      */
     @Override
-    public void updateUser(Context context, UserEntity userEntity) {
+    public long updateUser(Context context, UserEntity userEntity) {
         LogUtil.i("updateUser");
-        UserDao.getInstance(context).updateUser(userEntity);
+        UserEntity userInfo = UserDao.getInstance(context).findUserById(userEntity.getId());
+        if (userInfo == null) return -1L;
+        return UserDao.getInstance(context).updateUser(userEntity);
     }
 
     /**

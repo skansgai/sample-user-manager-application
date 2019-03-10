@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sample.android.R;
 import com.sample.android.model.entity.UserEntity;
+import com.sample.android.server.DateManager;
 import com.sample.android.util.ToastUtil;
 import com.sample.android.widget.XListViewItem;
 
@@ -115,6 +116,5 @@ public class UserInfoAdapter extends BaseAdapter {
         TextView toTop;
         TextView hadRead;
         TextView delete;
-
     }
 }

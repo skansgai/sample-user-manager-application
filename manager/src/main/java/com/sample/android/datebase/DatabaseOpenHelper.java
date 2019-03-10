@@ -24,7 +24,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     /**
      * 创建用户信息表sql
      */
-    private static String SQL_CREATE_USER_TABLE = "Create table " + DatabaseConfig.TABLE_NAME + "(" +
+    private static String SQL_CREATE_USER_TABLE = "Create table " + DatabaseConfig.USER_TABLE_NAME + "(" +
             DatabaseConfig.ID + " integer primary key autoincrement," +
             DatabaseConfig.LOGI_NNAME + " text(50)," +
             DatabaseConfig.ZH_NAME + " text(50)," +

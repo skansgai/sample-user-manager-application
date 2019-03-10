@@ -21,7 +21,7 @@ public class DatabaseOpenHelperTest {
     @Test
     public void onCreate() throws Exception {
         String SQL = "Create table " +
-                DatabaseConfig.TABLE_NAME + "(" +
+                DatabaseConfig.USER_TABLE_NAME + "(" +
                 DatabaseConfig.FIELD_ID + " integer primary key autoincrement," +
                 DatabaseConfig.FIELD_NAME + " text(20)," +
                 DatabaseConfig.FIELD_REMARK + " text(50)," +

@@ -17,7 +17,7 @@ public class DatabaseConfig {
     // 数据库版本1
     public static final int DATABASE_VERSION = 1;
     // 数据库表名
-    public static final String TABLE_NAME = "user";
+    public static final String USER_TABLE_NAME = "user";
     // 字段_id
     public static final String FIELD_ID = "_id";
     // 字段name

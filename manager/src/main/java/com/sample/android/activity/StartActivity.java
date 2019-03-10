@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 
 import com.sample.android.R;
 import com.sample.android.util.LogUtil;
+import com.sample.android.util.PublicTools;
 
 /**
  * version v1.0
@@ -32,6 +33,7 @@ public class StartActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.launch_activity);
+        PublicTools.setStatusBar(this);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

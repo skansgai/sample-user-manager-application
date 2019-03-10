@@ -3,6 +3,7 @@ package com.sample.android.datebase;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import com.sample.android.config.DatabaseConfig;
 import com.sample.android.model.entity.UserEntity;
@@ -41,6 +42,7 @@ public class UserDao extends DatabaseDao {
 
     /**
      * 单利模式:懒汉式，线程不安全
+     *
      * @param context 上下文对象
      * @return 返回的UserDao对象
      */
@@ -60,7 +62,7 @@ public class UserDao extends DatabaseDao {
     public long insertUser(UserEntity userEntity) {
         LogUtil.i("insertUser");
         if (userEntity == null) {
-            return 0;
+            return -1L;
         }
 
         // 插入的值
@@ -78,7 +80,7 @@ public class UserDao extends DatabaseDao {
         values.put(DatabaseConfig.ORDER_BY, userEntity.getOrderBy());
         values.put(DatabaseConfig.CREATE_TIME, userEntity.getCreateTime());
         values.put(DatabaseConfig.UPDATE_TIME, userEntity.getUpdateTime());
-        return this.getDb().insert(DatabaseConfig.TABLE_NAME, null, values);
+        return db.insert(DatabaseConfig.USER_TABLE_NAME, null, values);
     }
 
     /**
@@ -88,11 +90,12 @@ public class UserDao extends DatabaseDao {
      */
     public long removeUserById(long id) {
         LogUtil.i("removeUserById");
-        return this.getDb().delete(DatabaseConfig.TABLE_NAME, DatabaseConfig.ID + " = ", new String[]{String.valueOf(id)});
+        return db.delete(DatabaseConfig.USER_TABLE_NAME, DatabaseConfig.ID + " = ", new String[]{String.valueOf(id)});
     }
 
     /**
      * 更新用户
+     *
      * @param userEntity 更新的数据
      */
     public long updateUser(UserEntity userEntity) {
@@ -121,11 +124,12 @@ public class UserDao extends DatabaseDao {
         values.put(DatabaseConfig.ORDER_BY, userEntity.getOrderBy());
         values.put(DatabaseConfig.CREATE_TIME, userEntity.getCreateTime());
         values.put(DatabaseConfig.UPDATE_TIME, userEntity.getUpdateTime());
-        return this.getDb().update(DatabaseConfig.TABLE_NAME, values, whereClause, whereArgs);
+        return db.update(DatabaseConfig.USER_TABLE_NAME, values, whereClause, whereArgs);
     }
 
     /**
      * 查询所有用户
+     *
      * @return 返回数据
      */
     public List<UserEntity> findAllUser() {
@@ -133,7 +137,7 @@ public class UserDao extends DatabaseDao {
         List<UserEntity> entities = new ArrayList<>();
         String orderBy = "id desc";
 
-        mCursor = this.getDb().query(DatabaseConfig.TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
+        mCursor = db.query(DatabaseConfig.USER_TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
                 null, null, null, null, orderBy, null);
 
         try {
@@ -165,14 +169,14 @@ public class UserDao extends DatabaseDao {
      * 分页查询
      *
      * @param currentPage 当前页
-     * @param pageSize 分页大小
+     * @param pageSize    分页大小
      * @return 返回数据
      */
     public List<UserEntity> findUserPage(int currentPage, int pageSize) {
         LogUtil.i("findUserPage");
         List<UserEntity> entities = new ArrayList<>();
         String orderBy = "id desc";
-        mCursor = this.getDb().query(DatabaseConfig.TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
+        mCursor = db.query(DatabaseConfig.USER_TABLE_NAME, new String[]{DatabaseConfig.UPDATE_TIME},
                 null, null, null, null, orderBy, "(" + currentPage + "," + pageSize + ")");
 
         try {
@@ -212,7 +216,7 @@ public class UserDao extends DatabaseDao {
         String whereClause = DatabaseConfig.ID + " =?";
         String[] whereArgs = {String.valueOf(id)};
         String orderBy = "id desc";
-        mCursor = this.getDb().query(DatabaseConfig.TABLE_NAME, null, whereClause, whereArgs, orderBy, null, null);
+        mCursor = db.query(DatabaseConfig.USER_TABLE_NAME, null, whereClause, whereArgs, orderBy, null, null);
 
         try {
             // 获取Cursor中数据
@@ -242,8 +246,35 @@ public class UserDao extends DatabaseDao {
      *
      * @return
      */
-    private ContentValues getValues() {
+    public ContentValues getValues() {
         return new ContentValues();
+    }
+
+    /**
+     * 清空用户表
+     */
+    public void deleteUserTable() {
+        try {
+            db.execSQL("delete from " + DatabaseConfig.USER_TABLE_NAME);
+        } catch (SQLException e) {
+            LogUtil.e(e.getMessage());
+        } finally {
+            db.close();
+        }
+    }
+
+    /**
+     * 删除用户表
+     */
+    public void dropUserTable() {
+        try {
+            db.execSQL("drop table " + DatabaseConfig.USER_TABLE_NAME);
+        } catch (SQLException e) {
+            LogUtil.e(e.getMessage());
+        } finally {
+            if (db != null)
+                db.close();
+        }
     }
 
     /**
@@ -253,6 +284,7 @@ public class UserDao extends DatabaseDao {
         if (mCursor != null) {
             mCursor.close();
         }
+        if (db != null)
+            db.close();
     }
-
 }

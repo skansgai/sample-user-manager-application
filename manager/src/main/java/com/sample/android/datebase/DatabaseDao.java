@@ -3,6 +3,8 @@ package com.sample.android.datebase;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.sample.android.config.DatabaseConfig;
+
 /**
  * version v1.0
  * 项目: sample-user-manager-application
@@ -17,7 +19,7 @@ public class DatabaseDao {
      * SQLiteDataBase对象
      */
 
-    private static SQLiteDatabase db;
+    public static SQLiteDatabase db;
     /**
      * 上下文对象
      */
@@ -48,23 +50,6 @@ public class DatabaseDao {
         return DataBaseHelp.INSTANCE;
     }
 
-    /**
-     * 获取SQLiteDataBase对象
-     *
-     * @return
-     */
-    public SQLiteDatabase getDb() {
-        return db;
-    }
-
-    /**
-     * 设置SQLIteDataBase对象
-     *
-     * @param db
-     */
-    public void setDb(SQLiteDatabase db) {
-        this.db = db;
-    }
 
     /**
      * 获得数据库帮助类
@@ -91,5 +76,14 @@ public class DatabaseDao {
      */
     public void setmContext(Context mContext) {
         this.mContext = mContext;
+    }
+
+    /**
+     * 删除数据库
+     * @param mContext
+     * @return
+     */
+    public boolean deleteSQLite(Context mContext){
+        return mContext.deleteDatabase(DatabaseConfig.DATABASE_NAME);
     }
 }

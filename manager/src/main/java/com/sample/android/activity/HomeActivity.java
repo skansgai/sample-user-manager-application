@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sample.android.R;
 import com.sample.android.util.LogUtil;
+import com.sample.android.util.PublicTools;
 
 /**
  * @version v1.0
@@ -58,6 +59,7 @@ public class HomeActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        PublicTools.setStatusBar(this);
         initView();
         setButtomLine(login);
         initListener();
