@@ -101,7 +101,9 @@ public class UserDateServerImpl implements UserDateServer {
     public long updateUser(Context context, UserEntity userEntity) {
         LogUtil.i("updateUser");
         UserEntity userInfo = UserDao.getInstance(context).findUserById(userEntity.getId());
-        if (userInfo == null) return -1L;
+        if (userInfo == null) {
+            return -1L;
+        }
         return UserDao.getInstance(context).updateUser(userEntity);
     }
 

@@ -272,8 +272,9 @@ public class UserDao extends DatabaseDao {
         } catch (SQLException e) {
             LogUtil.e(e.getMessage());
         } finally {
-            if (db != null)
+            if (db != null) {
                 db.close();
+            }
         }
     }
 
@@ -284,7 +285,8 @@ public class UserDao extends DatabaseDao {
         if (mCursor != null) {
             mCursor.close();
         }
-        if (db != null)
+        if (db != null) {
             db.close();
+        }
     }
 }

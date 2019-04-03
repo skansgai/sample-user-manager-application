@@ -30,7 +30,7 @@ public interface UserDateServer {
      * 根据id删除数据
      *
      * @param context 上下文对象
-     * @param id
+     * @param id 查询的id
      */
     long removeUserById(Context context, long id);
 
@@ -60,6 +60,7 @@ public interface UserDateServer {
      *
      * @param context    上下文对象
      * @param userEntity 返回user对象
+     * @return long 返回更新的数据条数
      */
     long updateUser(Context context, UserEntity userEntity);
 

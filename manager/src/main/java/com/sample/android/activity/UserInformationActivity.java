@@ -36,6 +36,7 @@ import java.util.List;
  * 功能描述:用户信息列表
  * 作者:杨松松
  * 创建时间:2018/8/18 16:08
+ * @author 杨松松
  */
 public class UserInformationActivity extends Activity implements View.OnClickListener {
 
@@ -76,7 +77,10 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
      */
     private TextView addUser;
 
-    private RelativeLayout tile_rl;
+    /**
+     * 标题
+     */
+    private RelativeLayout rlTitle;
 
     /**
      * 数据源
@@ -115,7 +119,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
      */
     private void initView() {
         LogUtil.i(TAG, "initView");
-        tile_rl = (RelativeLayout) findViewById(R.id.tile_rl);
+        rlTitle = (RelativeLayout) findViewById(R.id.tile_rl);
         backTv = (TextView) findViewById(R.id.tile_back_tv);
         moreTv = (TextView) findViewById(R.id.tile_more_tv);
         addUser = (TextView) findViewById(R.id.add);
@@ -174,6 +178,8 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
                     popupWindow.dismiss();
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -213,7 +219,7 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
         }
     }
 
-    private void showPopupMenu(){
+    private void showPopupMenu() {
         PopupMenu popupMenu = new PopupMenu(this, moreTv);
         popupMenu.inflate(R.menu.popup_menu);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -221,13 +227,15 @@ public class UserInformationActivity extends Activity implements View.OnClickLis
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_1:
-                        Toast.makeText(UserInformationActivity.this,"Option 1",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserInformationActivity.this, "Option 1", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_2:
-                        Toast.makeText(UserInformationActivity.this,"Option 2",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserInformationActivity.this, "Option 2", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_3:
-                        Toast.makeText(UserInformationActivity.this,"Option 3",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserInformationActivity.this, "Option 3", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
                         break;
                 }
                 return false;

@@ -51,10 +51,12 @@ public class XListViewHeader extends LinearLayout {
      * 动画时间
      */
     private final int ROTATE_ANIM_DURATION = 180;
-
-    public final static int STATE_NORMAL = 0;//普通状态
-    public final static int STATE_READY = 1;//下拉准备刷新
-    public final static int STATE_REFRESHING = 2;//正在加载
+    //普通状态
+    public final static int STATE_NORMAL = 0;
+    //下拉准备刷新
+    public final static int STATE_READY = 1;
+    //正在加载
+    public final static int STATE_REFRESHING = 2;
 
     public XListViewHeader(Context context) {
         super(context);
@@ -99,9 +101,12 @@ public class XListViewHeader extends LinearLayout {
     }
 
     public void setState(int state) {
-        if (state == mState) return;
+        if (state == mState) {
+            return;
+        }
 
-        if (state == STATE_REFRESHING) {// 显示进度
+        // 显示进度
+        if (state == STATE_REFRESHING) {
             mArrowImageView.clearAnimation();
             mArrowImageView.setVisibility(View.INVISIBLE);
             mProgressBar.setVisibility(View.VISIBLE);
@@ -142,8 +147,9 @@ public class XListViewHeader extends LinearLayout {
      * @param height
      */
     public void setVisiableHeight(int height) {
-        if (height < 0)
+        if (height < 0) {
             height = 0;
+        }
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContainer
                 .getLayoutParams();
         lp.height = height;

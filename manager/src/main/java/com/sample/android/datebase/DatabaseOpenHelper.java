@@ -80,6 +80,9 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 break;
             case 2:
                 break;
+                default:
+
+                    break;
         }
     }
 }

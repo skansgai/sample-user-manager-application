@@ -93,6 +93,8 @@ public class HomeActivity extends Activity implements View.OnClickListener {
             case R.id.login_tv:
                 login();
                 break;
+            default:
+                break;
 
         }
     }

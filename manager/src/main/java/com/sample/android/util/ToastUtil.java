@@ -77,10 +77,12 @@ public class ToastUtil {
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             mLytShow.setOrientation(LinearLayout.HORIZONTAL);
             mLytShow.setLayoutParams(params);
-
-            int roundRadius = 100; // 8dp 圆角半径
-            int fillColor = Color.parseColor("#F89009");// 内部填充颜色
-            GradientDrawable gd = new GradientDrawable();// 创建drawable
+            // 8dp 圆角半径
+            int roundRadius = 100;
+            // 内部填充颜色
+            int fillColor = Color.parseColor("#F89009");
+            // 创建drawable
+            GradientDrawable gd = new GradientDrawable();
             gd.setCornerRadius(roundRadius);
             gd.setColor(fillColor);
 
@@ -124,9 +126,12 @@ public class ToastUtil {
             mLytShow.setOrientation(LinearLayout.HORIZONTAL);
             mLytShow.setLayoutParams(params);
 
-            int roundRadius = 100; // 8dp 圆角半径
-            int fillColor = Color.parseColor(bgColor);// 内部填充颜色
-            GradientDrawable gd = new GradientDrawable();// 创建drawable
+            // 8dp 圆角半径
+            int roundRadius = 100;
+            // 内部填充颜色
+            int fillColor = Color.parseColor(bgColor);
+            // 创建drawable
+            GradientDrawable gd = new GradientDrawable();
             gd.setCornerRadius(roundRadius);
             gd.setColor(fillColor);
 
@@ -206,13 +211,15 @@ public class ToastUtil {
             mLytShow.setOrientation(LinearLayout.HORIZONTAL);
             mLytShow.setLayoutParams(params);
 
-            int roundRadius = 100; // 8dp 圆角半径
-            // int strokeColor = Color.parseColor("#2E3135");// 边框颜色
-            int fillColor = Color.parseColor(bgColor);// 内部填充颜色
-            GradientDrawable gd = new GradientDrawable();// 创建drawable
+            // 8dp 圆角半径
+            int roundRadius = 100;
+            // 内部填充颜色
+            int fillColor = Color.parseColor(bgColor);
+            // 创建drawable
+            GradientDrawable gd = new GradientDrawable();
             gd.setColor(fillColor);
             gd.setCornerRadius(roundRadius);
-            // gd.setStroke(0, strokeColor);
+
 
             mLytShow.setBackgroundDrawable(gd);
             mLytShow.addView(mImgIcon);

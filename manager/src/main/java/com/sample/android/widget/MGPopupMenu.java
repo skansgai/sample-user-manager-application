@@ -103,6 +103,10 @@ public class MGPopupMenu {
     }
 
     public interface OnItemOnclickListener {
+        /**
+         * 点击事件
+         * @param item
+         */
         void onClickListener(MenuItem item);
     }
 }

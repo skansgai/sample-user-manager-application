@@ -42,7 +42,9 @@ public class DateManager {
      * @return
      */
     private long insertUserInfo(UserEntity userEntity) {
-        if (userEntity == null) return -1L;
+        if (userEntity == null) {
+            return -1L;
+        }
         return mUserDateServer.insertUser(context, userEntity);
     }
 
@@ -68,11 +70,14 @@ public class DateManager {
 
     /**
      * 更新用户信息
+     *
      * @param userEntity
      * @return
      */
     private long updateUser(UserEntity userEntity) {
-        if (userEntity == null) return -1L;
+        if (userEntity == null) {
+            return -1L;
+        }
         return mUserDateServer.updateUser(context, userEntity);
     }
 
@@ -92,6 +97,7 @@ public class DateManager {
 
     /**
      * 根据id查找用户信息
+     *
      * @return
      */
     private List<UserEntity> findAllUser() {
@@ -100,18 +106,24 @@ public class DateManager {
 
     /**
      * 分页查询用户信息
+     *
      * @param currentPage
      * @param pageSize
      * @return
      */
     private List<UserEntity> findUserPage(int currentPage, int pageSize) {
-        if (currentPage < 0) currentPage = 1;
-        if (pageSize < 0 || pageSize == 0) pageSize = 3;
+        if (currentPage < 0) {
+            currentPage = 1;
+        }
+        if (pageSize < 0 || pageSize == 0) {
+            pageSize = 3;
+        }
         return mUserDateServer.findUserPage(context, currentPage, pageSize);
     }
 
     /**
      * 根据id查询用户信息
+     *
      * @param id
      * @return
      */

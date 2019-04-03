@@ -94,8 +94,8 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
     /**
      * 判断横滑、竖滑的最小值
      */
-    private int MAX_Y = 5;
-    private int MAX_X = 3;
+    private int Y_MAX = 5;
+    private int X_MAX = 3;
 
     /**
      * 当前点击的position
@@ -147,15 +147,18 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
     /**
      * 头部滑动返回
      */
-    private final static int SCROLLBACK_HEADER = 0;
+    private final static int SCROLL_BACK_HEADER = 0;
     /**
      * footer滑动返回
      */
-    private final static int SCROLLBACK_FOOTER = 1;
+    private final static int SCROLL_BACK_FOOTER = 1;
 
     private final static int SCROLL_DURATION = 400;
     private final static int PULL_LOAD_MORE_DELTA = 50;
-    private final static float OFFSET_RADIO = 1.8f; // support iOS like pull
+    /**
+     * support iOS like pull
+     */
+    private final static float OFFSET_RADIO = 1.8f;
 
     public XListView(Context context) {
         super(context);
@@ -195,24 +198,26 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        mHeaderViewHeight = mHeaderViewContent.getHeight(); // 获得下拉头高度
+                        // 获得下拉头高度
+                        mHeaderViewHeight = mHeaderViewContent.getHeight();
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
 
-        MAX_X = dp2px(MAX_X);
-        MAX_Y = dp2px(MAX_Y);
+        X_MAX = dp2px(X_MAX);
+        Y_MAX = dp2px(Y_MAX);
     }
 
     @Override
     public void setAdapter(ListAdapter adapter) {
         /*
-         * 将上拉加载更多footer加入listview的底部
+         * 将上拉加载更多footer加入listView的底部
          * 并且保证只加入一次
          */
         if (mIsFooterReady == false) {
             mIsFooterReady = true;
-            addFooterView(mFooterView);//listview原生方法
+            //listView原生方法
+            addFooterView(mFooterView);
         }
 
         super.setAdapter(adapter);
@@ -225,7 +230,8 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
      */
     public void setPullRefreshEnable(boolean enable) {
         mEnablePullRefresh = enable;
-        if (!mEnablePullRefresh) {//不开启，隐藏头部
+        //不开启，隐藏头部
+        if (!mEnablePullRefresh) {
             mHeaderViewContent.setVisibility(View.INVISIBLE);
         } else {
             mHeaderViewContent.setVisibility(View.VISIBLE);
@@ -237,7 +243,8 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
         mEnablePullLoad = enable;
         if (!mEnablePullLoad) {
             mFooterView.hide();
-            mFooterView.setOnClickListener(null); //取消监听
+            //取消监听
+            mFooterView.setOnClickListener(null);
             setFooterDividersEnabled(false);
         } else {
             mPullLoading = false;
@@ -328,7 +335,8 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
      */
     private void updateHeaderHeight(float delta) {
         mHeaderView.setVisiableHeight((int) delta + mHeaderView.getVisiableHeight());
-        if (mEnablePullRefresh && !mPullRefreshing) {//未处于刷新状态，更新箭头
+        // 未处于刷新状态，更新箭头
+        if (mEnablePullRefresh && !mPullRefreshing) {
             if (mHeaderView.getVisiableHeight() > mHeaderViewHeight) {
                 mHeaderView.setState(XListViewHeader.STATE_READY);
             } else {
@@ -336,7 +344,7 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
             }
         }
         //滑动到头部
-        setSelection(0); // scroll to top each time
+        setSelection(0);
     }
 
     /**
@@ -356,7 +364,7 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
             finalHeight = mHeaderViewHeight;
         }
 
-        mScrollBack = SCROLLBACK_HEADER;
+        mScrollBack = SCROLL_BACK_HEADER;
         mScroller.startScroll(0, height, 0, finalHeight - height, SCROLL_DURATION);
         invalidate();
     }
@@ -369,7 +377,8 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
     private void updateFooterHeight(float delta) {
         int height = mFooterView.getBottomMargin() + (int) delta;
         if (mEnablePullLoad && !mPullLoading) {
-            if (height > PULL_LOAD_MORE_DELTA) { // height enough to invoke load上拉足够高才去加载
+            // height enough to invoke load上拉足够高才去加载
+            if (height > PULL_LOAD_MORE_DELTA) {
                 // ic_more.
                 mFooterView.setState(XListViewFooter.STATE_READY);
             } else {
@@ -385,7 +394,7 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
     private void resetFooterHeight() {
         int bottomMargin = mFooterView.getBottomMargin();
         if (bottomMargin > 0) {
-            mScrollBack = SCROLLBACK_FOOTER;
+            mScrollBack = SCROLL_BACK_FOOTER;
             mScroller.startScroll(0, bottomMargin, 0, -bottomMargin,
                     SCROLL_DURATION);
             invalidate();
@@ -435,14 +444,16 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
                 // 当前点击的Item正好是已经显示Menu的Item
                 if (prevPosition == mTouchPosition && mTouchView != null && mTouchView.isMenuOpen()) {
                     mTouchState = TOUCH_STATE_X;
-                    return true; // 返回true表示接受了ACTION_DOWN，那么后面的事件依然会分发给MyListView
+                    // 返回true表示接受了ACTION_DOWN，那么后面的事件依然会分发给MyListView
+                    return true;
                 }
                 View view = getChildAt(mTouchPosition - getFirstVisiblePosition());
                 // 点击的Item不是正在显示Menu的Item，则直接关闭Menu
                 if (mTouchView != null && mTouchView.isMenuOpen()) {
                     mTouchView.smoothCloseMenu();
                     mTouchView = null;
-                    return false; // 返回false，那么后面的事件全部会接收不到
+                    // 返回false，那么后面的事件全部会接收不到
+                    return false;
                 }
                 if (view instanceof XListViewItem) {
                     mTouchView = (XListViewItem) view;
@@ -450,7 +461,8 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                final float deltaY = ev.getRawY() - mLastY; // 下拉或者上拉了多少offset
+                // 下拉或者上拉了多少offset
+                final float deltaY = ev.getRawY() - mLastY;
                 mLastY = ev.getRawY();
                 if (getFirstVisiblePosition() == 0
                         && (mHeaderView.getVisiableHeight() > 0 || deltaY > 0)) {
@@ -474,9 +486,9 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
                     return true;
                 } else if (mTouchState == TOUCH_STATE_NONE) {
                     // 设置横滑还是竖滑
-                    if (Math.abs(moveY) > MAX_Y) {
+                    if (Math.abs(moveY) > Y_MAX) {
                         mTouchState = TOUCH_STATE_Y;
-                    } else if (Math.abs(moveX) > MAX_X) {
+                    } else if (Math.abs(moveX) > X_MAX) {
                         mTouchState = TOUCH_STATE_X;
                     }
                 }
@@ -533,7 +545,7 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
     @Override
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
-            if (mScrollBack == SCROLLBACK_HEADER) {
+            if (mScrollBack == SCROLL_BACK_HEADER) {
                 mHeaderView.setVisiableHeight(mScroller.getCurrY());
             } else {
                 mFooterView.setBottomMargin(mScroller.getCurrY());
@@ -569,6 +581,11 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
      * onXScrolling when header/footer scroll ic_back.
      */
     public interface OnXScrollListener extends OnScrollListener {
+        /**
+         * 滑动监听
+         *
+         * @param view 点击的视图
+         */
         public void onXScrolling(View view);
     }
 
@@ -577,8 +594,14 @@ public class XListView extends ListView implements AbsListView.OnScrollListener 
      * 下拉和上拉监听器
      */
     public interface IXListViewListener {
+        /**
+         * 刷新回调
+         */
         public void onRefresh();
 
+        /**
+         * 加载更多的回调
+         */
         public void onLoadMore();
     }
 

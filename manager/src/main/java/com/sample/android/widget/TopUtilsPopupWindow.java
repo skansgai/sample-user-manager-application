@@ -103,6 +103,12 @@ public class TopUtilsPopupWindow extends PopupWindow implements View.OnClickList
     }
 
     public enum FileType {
+        /**
+         * PDF---------pdf
+         * IMAGE-------图片
+         * IP----------ip地址
+         * OTHERS------压缩文件
+         */
         PDF,
         IMAGE,
         ZIP,
@@ -122,6 +128,10 @@ public class TopUtilsPopupWindow extends PopupWindow implements View.OnClickList
     }
 
     public interface PopupWindowOnclickListener {
+        /**
+         * popupWindow点击事件
+         * @param view
+         */
         void popupWindowOnClick(View view);
     }
 

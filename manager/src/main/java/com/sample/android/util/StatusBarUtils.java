@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 public class StatusBarUtils {
     public final static int TYPE_MIUI = 0;
     public final static int TYPE_FLYME = 1;
-    public final static int TYPE_M = 3;//6.0
+    public final static int TYPE_M = 3;
 
     @IntDef({TYPE_MIUI,
             TYPE_FLYME,
@@ -51,8 +51,10 @@ public class StatusBarUtils {
             //使用SystemBarTintManager,需要先将状态栏设置为透明
             setTranslucentStatus(activity);
             SystemBarTintManager systemBarTintManager = new SystemBarTintManager(activity);
-            systemBarTintManager.setStatusBarTintEnabled(true);//显示状态栏
-            systemBarTintManager.setStatusBarTintColor(colorId);//设置状态栏颜色
+            //显示状态栏
+            systemBarTintManager.setStatusBarTintEnabled(true);
+            //设置状态栏颜色
+            systemBarTintManager.setStatusBarTintColor(colorId);
         }
     }
 
@@ -72,14 +74,11 @@ public class StatusBarUtils {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
             //导航栏颜色也可以正常设置
-            //window.setNavigationBarColor(Color.TRANSPARENT);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = activity.getWindow();
             WindowManager.LayoutParams attributes = window.getAttributes();
             int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
             attributes.flags |= flagTranslucentStatus;
-            //int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-            //attributes.flags |= flagTranslucentNavigation;
             window.setAttributes(attributes);
         }
     }
@@ -195,7 +194,8 @@ public class StatusBarUtils {
             int darkModeFlag = field.getInt(layoutParams);
             Method extraFlagField = clazz.getDeclaredMethod("setExtraFlags", int.class, int.class);
             extraFlagField.setAccessible(true);
-            if (dark) {    //状态栏亮色且黑色字体
+            //状态栏亮色且黑色字体
+            if (dark) {
                 extraFlagField.invoke(window, darkModeFlag, darkModeFlag);
             } else {
                 extraFlagField.invoke(window, 0, darkModeFlag);

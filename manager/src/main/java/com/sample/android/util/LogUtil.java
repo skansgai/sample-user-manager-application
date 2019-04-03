@@ -29,12 +29,13 @@ public class LogUtil {
 
 
     public static String TAG = "SiberiaDante";
-    private final static String SeperateSymob = "@@";
+    private final static String SEPERATE_SYMOB = "@@";
     private static boolean isDebug = true;
     private static String TOP_BORDER = "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════";
     private static String LEFT_BORDER = "║ ";
     private static String BOTTOM_BORDER = "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════";
-    private static int CHUNK_SIZE = 106; //设置字节数
+    /*设置字节数*/
+    private static int CHUNK_SIZE = 106;
 
     public static void setTag(String tag) {
         LogUtil.TAG = tag;
@@ -42,75 +43,84 @@ public class LogUtil {
 
     public static void i(String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        String tag = "(" + element.getFileName() + SeperateSymob + "I>" + element.getLineNumber() + ")" + element.getMethodName();
-        if (isDebug)
+        String tag = "(" + element.getFileName() + SEPERATE_SYMOB + "I>" + element.getLineNumber() + ")" + element.getMethodName();
+        if (isDebug) {
             Log.i(tag, msg);
+        }
     }
 
     public static void i(String tag, String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        tag = "(" + element.getFileName() + SeperateSymob + "I>" + element.getLineNumber() + ")" + element.getMethodName();
+        tag = "(" + element.getFileName() + SEPERATE_SYMOB + "I>" + element.getLineNumber() + ")" + element.getMethodName();
         msg = "[" + msg + "]";
-        if (isDebug)
+        if (isDebug) {
             Log.i(tag, msg);
+        }
     }
 
 
     public static void d(String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        String tag = "(" + element.getFileName() + SeperateSymob + "D>" + element.getLineNumber() + ")" + element.getMethodName();
-        if (isDebug)
+        String tag = "(" + element.getFileName() + SEPERATE_SYMOB + "D>" + element.getLineNumber() + ")" + element.getMethodName();
+        if (isDebug) {
             Log.d(tag, msg);
+        }
     }
 
     public static void d(String tag, String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        tag = "(" + element.getFileName() + SeperateSymob + "D>" + element.getLineNumber() + ")" + element.getMethodName();
+        tag = "(" + element.getFileName() + SEPERATE_SYMOB + "D>" + element.getLineNumber() + ")" + element.getMethodName();
         msg = "[" + msg + "]";
-        if (isDebug)
+        if (isDebug) {
             Log.d(tag, msg);
+        }
     }
 
     public static void e(String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        String tag = "(" + element.getFileName() + SeperateSymob + "E>" + element.getLineNumber() + ")" + element.getMethodName();
-        if (isDebug)
+        String tag = "(" + element.getFileName() + SEPERATE_SYMOB + "E>" + element.getLineNumber() + ")" + element.getMethodName();
+        if (isDebug) {
             Log.e(tag, msg);
+        }
     }
 
     public static void e(String tag, String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        tag = "(" + element.getFileName() + SeperateSymob + "E>" + element.getLineNumber() + ")" + element.getMethodName();
+        tag = "(" + element.getFileName() + SEPERATE_SYMOB + "E>" + element.getLineNumber() + ")" + element.getMethodName();
         msg = "[" + msg + "]";
-        if (isDebug)
+        if (isDebug) {
             Log.e(tag, msg);
+        }
     }
 
     public static void v(String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        String tag = "(" + element.getFileName() + SeperateSymob + "V>" + element.getLineNumber() + ")" + element.getMethodName();
-        if (isDebug)
+        String tag = "(" + element.getFileName() + SEPERATE_SYMOB + "V>" + element.getLineNumber() + ")" + element.getMethodName();
+        if (isDebug) {
             Log.v(tag, msg);
+        }
     }
 
     public static void v(String tag, String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        tag = "(" + element.getFileName() + SeperateSymob + "V>" + element.getLineNumber() + ")" + element.getMethodName();
+        tag = "(" + element.getFileName() + SEPERATE_SYMOB + "V>" + element.getLineNumber() + ")" + element.getMethodName();
         msg = "[" + msg + "]";
-        if (isDebug)
+        if (isDebug) {
             Log.v(tag, msg);
+        }
     }
 
     public static void w(String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        String tag = "(" + element.getFileName() + SeperateSymob + "W>" + element.getLineNumber() + ")" + element.getMethodName();
-        if (isDebug)
+        String tag = "(" + element.getFileName() + SEPERATE_SYMOB + "W>" + element.getLineNumber() + ")" + element.getMethodName();
+        if (isDebug) {
             Log.w(tag, msg);
+        }
     }
 
     public static void w(String tag, String msg) {
         StackTraceElement element = new Throwable().getStackTrace()[1];
-        tag = "(" + element.getFileName() + SeperateSymob + "W>" + element.getLineNumber() + ")" + element.getMethodName();
+        tag = "(" + element.getFileName() + SEPERATE_SYMOB + "W>" + element.getLineNumber() + ")" + element.getMethodName();
         msg = "[" + msg + "]";
         if (isDebug)
             Log.w(tag, msg);

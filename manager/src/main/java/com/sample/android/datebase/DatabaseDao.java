@@ -75,7 +75,7 @@ public class DatabaseDao {
      * @param mContext
      */
     public void setmContext(Context mContext) {
-        this.mContext = mContext;
+        DatabaseDao.mContext = mContext;
     }
 
     /**

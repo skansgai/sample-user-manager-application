@@ -24,8 +24,8 @@ public class PublicTools {
      * @return window显示的左上角的xOff, yOff坐标
      */
     public static int[] calculatePopWindowPos(final View anchorView, final View contentView) {
-        final int windowPos[] = new int[2];
-        final int anchorLoc[] = new int[2];
+        final int[] windowPos = new int[2];
+        final int[] anchorLoc = new int[2];
         // 获取锚点View在屏幕上的左上角坐标位置
         anchorView.getLocationOnScreen(anchorLoc);
         final int anchorHeight = anchorView.getHeight();
@@ -67,19 +67,6 @@ public class PublicTools {
      * @param activity
      */
     public static void setStatusBar(Activity activity){
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            Window window = activity.getWindow();
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//            | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//
-//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-//
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.setStatusBarColor(activity.getResources().getColor(R.color.white,null));
-//        }
-        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
         StatusBarUtils.setRootViewFitsSystemWindows(activity,true);
         //设置状态栏透明
         StatusBarUtils.setTranslucentStatus(activity);

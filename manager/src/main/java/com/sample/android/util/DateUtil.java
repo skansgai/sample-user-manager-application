@@ -180,7 +180,7 @@ public class DateUtil {
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getStrToTime(String str) {
         //判断时间戳是否为空
-        if (str == null || str.isEmpty() || str.equals("null")) {
+        if (str == null || str.isEmpty() || "null".equals(str)) {
             return "";
         }
         String format = "yyyy-MM-dd HH:mm:ss";
@@ -206,7 +206,7 @@ public class DateUtil {
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getStrToTimeHm(String str) {
         //判断时间戳是否为空
-        if (str == null || str.isEmpty() || str.equals("null")) {
+        if (str == null || str.isEmpty() || "null".equals(str)) {
             return "";
         }
         String format = "HH:mm";
@@ -224,7 +224,7 @@ public class DateUtil {
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getStrToTimeHms(String str) {
         //判断时间戳是否为空
-        if (str == null || str.isEmpty() || str.equals("null")) {
+        if (str == null || str.isEmpty() || "null".equals(str)) {
             return "";
         }
         String format = "HH:mm:ss";
@@ -240,7 +240,7 @@ public class DateUtil {
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getStrToTimeYMdHm(String str) {
         //判断时间戳是否为空
-        if (str == null || str.isEmpty() || str.equals("null")) {
+        if (str == null || str.isEmpty() || "null".equals(str)) {
             return "";
         }
         String format = "yyyy-MM-dd HH:mm";
@@ -294,7 +294,7 @@ public class DateUtil {
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static String getStrToSDFTime(String str, String format) {
         //判断时间戳是否为空
-        if (str == null || str.isEmpty() || str.equals("null")) {
+        if (str == null || str.isEmpty() || "null".equals(str)) {
             return "";
         }
         //未指定format格式时默认输出yyyy-MM-dd HH:mm:ss
@@ -315,7 +315,8 @@ public class DateUtil {
      */
     public static String getConstellation(int month, int day) {
         String[] starArr = {"魔羯座", "水瓶座", "双鱼座", "牡羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座"};
-        int[] DayArr = {22, 20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22};  // 两个星座分割日
+        /* 两个星座分割日*/
+        int[] DayArr = {22, 20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22};
 
         if (month <= 0 || day <= 0) {
             return "猴年马月座";

@@ -1,5 +1,4 @@
 buildscript {
-    
     repositories {
         google()
         jcenter()
@@ -22,10 +21,6 @@ task{
     compileSdkVersion 23
     buildToolsVersion "23.1.0"
 }
-
-//ext{
-//    product = System.getProperty("flavors":"com.yss.work")
-//}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
